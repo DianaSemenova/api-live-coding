@@ -1,7 +1,7 @@
-import { loginUser } from "../api.js";
+import { loginUser, registerUser } from "../api.js";
 
 export function renderLoginComponent ({appEl, setToken, fetchTodosAndRender}) {
-let isLoginMode = false;
+let isLoginMode = true;
 
 const renderForm = () => {
 
@@ -15,12 +15,12 @@ const renderForm = () => {
             : `
             Имя
                 <input type="text" id="name-input" class="input" />
-                <br />`
+                <br /> <br />`
           }
                 
                 Логин
                 <input type="text" id="login-input" class="input" />
-                <br />
+                <br /><br />
                 Пароль
                 <input type="password" id="password-input" class="input" />
             </div>
@@ -33,7 +33,9 @@ const renderForm = () => {
             appEl.innerHTML = appHtml;
 
             document.getElementById('login-button').addEventListener ("click", () => {
-              const login = document.getElementById('login-input').value;
+
+              if(isLoginMode) {
+                const login = document.getElementById('login-input').value;
               const password = document.getElementById('password-input').value;
               if (!login) {
                 alert('Введите логин');
@@ -53,7 +55,35 @@ const renderForm = () => {
                   .catch ((error) => {
                     // TODO: Выводить алерт красиво
                     alert(error.message);
-                  })              
+                  })
+              }  else {
+                const login = document.getElementById('login-input').value;
+                const name = document.getElementById('name-input').value;
+                const password = document.getElementById('password-input').value;
+                if (!name) {
+                  alert('Введите имя');
+                }
+                if (!login) {
+                  alert('Введите логин');
+                }
+                if (!password) {
+                  alert('Введите пароль');
+                }
+                registerUser ({
+                      login: login,
+                      password: password,
+                      name: name
+                   }) 
+                   .then((user) => {
+                     console.log(user);
+                     setToken(`Bearer ${user.user.token}`);
+                     fetchTodosAndRender();
+                    })
+                    .catch ((error) => {
+                      // TODO: Выводить алерт красиво
+                      alert(error.message);
+                    })
+              }            
             });
 
             document.getElementById('toggle-button').addEventListener ("click", () => {

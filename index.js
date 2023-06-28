@@ -6,7 +6,7 @@
     //  * api (+)
     //  * вытащить логин компонент в отдельный модуль (+)
     //  * вытащить компонент списка задач и форму добавления в отедльный модуль
-    // 2. Реализовать форму регистрации
+    // 2. Реализовать форму регистрации (+)
 
 import { addTodo, deleteTodo, getTodos } from "./api.js";
 import {renderLoginComponent} from "./components/login-component.js"
